@@ -1,0 +1,40 @@
+ public class ContaCorrenteService {
+}
+
+
+    //* Implementar o teste unitário do criar conta;
+    @Test
+    void testarCriarNovaConta () {
+        when(repository.save(contaCorrente)).thenReturn(contaCorrente);
+        ContaCorrente contaCriada = service.criarConta(contaCorrente);
+        assertNotNull(contaCriada);
+    }
+
+
+    public ContaCorrente criarConta(ContaCorrente contaCorrente) {
+
+        //Implementar o método criar conta no service;
+        //1. um titular deve ser informado
+        if (contaCorrente.getTitular() == null) {
+            throw new IllegalArgumentException("Um Titular deve ser informado");
+        }
+        //2. não é possível criar uma conta com zero ou menos reais, deve começar com um valor
+        if (contaCorrente.getSaldo() == null || contaCorrente.getSaldo().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new ContaSemSaldoException("Saldo inicial deve ser maior que 0.");
+        }
+
+        return repository.save(contaCorrente); 
+        
+        
+        public class ContaCorrenteController {
+}
+
+    private final ContaCorrenteService service;
+
+    //Implementar o endpoint criar conta;
+    @PostMapping("nova-conta")
+    public ContaCorrente criarNovaConta(@RequestBody ContaCorrente contaCorrente) {
+        // chamada para uma nova conta
+        ContaCorrente contaCriada = service.criarConta(contaCorrente);
+        return contaCriada;
+    }
